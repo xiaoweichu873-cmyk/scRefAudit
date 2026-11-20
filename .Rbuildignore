@@ -1,0 +1,16 @@
+^\.github$
+^\.gitignore$
+^pyproject\.toml$
+^build$
+^dist$
+^docs$
+^validation$
+^examples$
+^README.*\.md$
+^CITATION\.cff$
+^MANIFEST\.in$
+^LICENSE\.md$
+^tests/python$
+.*__pycache__.*
+.*\.pyc$
+.*\.egg-info.*

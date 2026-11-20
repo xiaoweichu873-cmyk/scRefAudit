@@ -1,0 +1,61 @@
+{
+  "version": "0.1.0",
+  "package": "scRefAudit",
+  "prepared_on": "2026-11-21",
+  "python": "3.12.14",
+  "numpy": "2.3.5",
+  "scipy": "1.17.0",
+  "platform": "Linux",
+  "python_tests": "9 passed",
+  "example": "passed",
+  "installed_package_import": true,
+  "Rscript_available": false,
+  "R_interface_status": "Not executed in this environment; see R smoke test and GitHub workflow",
+  "real_input_compatibility": {
+    "purpose": "Three archived real-input compatibility checks; not a new efficacy or timing study",
+    "checks": [
+      {
+        "group": "HCC_Myeloid",
+        "source": "HCC_Myeloid/fold0/HCC03N.npz",
+        "source_sha256": "c44100ee224c8c020ddd564e11f34c874eb8e7a4df555da01164268103bbcc79",
+        "n_query": 500,
+        "n_reference": 384,
+        "n_classes": 14,
+        "max_baseline_difference": 0.0,
+        "baseline_label_disagreements": 0,
+        "minimum_archived_direction_cosine": 0.9999999999999999,
+        "max_tv_error": 6.418476861114186e-17,
+        "max_residual": 9.449793705130832e-08,
+        "fallback_count": 0
+      },
+      {
+        "group": "IPF_Epithelial",
+        "source": "IPF_Epithelial/fold0/THD0005.npz",
+        "source_sha256": "597f2830a275640f9005b481fdb9b599a32db93d4155d96a5878bec6e388bde5",
+        "n_query": 236,
+        "n_reference": 384,
+        "n_classes": 12,
+        "max_baseline_difference": 0.0,
+        "baseline_label_disagreements": 0,
+        "minimum_archived_direction_cosine": 0.9999999999999998,
+        "max_tv_error": 1.0061396160665481e-16,
+        "max_residual": 9.994770225639276e-08,
+        "fallback_count": 2
+      },
+      {
+        "group": "IPF_Mesenchymal",
+        "source": "IPF_Mesenchymal/fold0/THD0005.npz",
+        "source_sha256": "25803093b3824711326a9fe1acae80cdaaa70da7328ffd6e1782f6237288c215",
+        "n_query": 40,
+        "n_reference": 384,
+        "n_classes": 6,
+        "max_baseline_difference": 0.0,
+        "baseline_label_disagreements": 0,
+        "minimum_archived_direction_cosine": 0.9999999999999999,
+        "max_tv_error": 6.765421556309548e-17,
+        "max_residual": 9.623431746657359e-08,
+        "fallback_count": 14
+      }
+    ]
+  }
+}

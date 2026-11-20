@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "Please cite the manuscript and the exact software version used."
+title: "scRefAudit: single-cell reference-composition audit"
+type: software
+version: 0.1.0
+date-released: 2026-11-21
+license: MIT
+authors:
+  - family-names: Chu
+    given-names: Xiaowei
+    orcid: "https://orcid.org/0009-0009-8693-4034"
+  - family-names: Lyu
+    given-names: Caixia
+references:
+  - type: generic
+    title: "Efficient reference composition sensitivity analysis for single-cell annotation"
+    authors:
+      - family-names: Chu
+        given-names: Xiaowei
+      - family-names: Lyu
+        given-names: Caixia
+    doi: "10.21203/rs.3.rs-11637549/v1"
+    year: 2026
+    notes: "Research Square preprint; the later submission includes additional analyses."
