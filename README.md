@@ -154,10 +154,16 @@ Preprint: *Efficient reference composition sensitivity analysis for single-cell
 annotation*, DOI [10.21203/rs.3.rs-11637549/v1](https://doi.org/10.21203/rs.3.rs-11637549/v1).
 The newer submission manuscript contains additional controls and analyses.
 
-This repository is the software interface, not the complete manuscript data
-archive. Full benchmarking inputs, comparator adaptations and study results
-are supplied separately in the study's reproducibility materials. A public
-code URL and permanent release identifier must be added after deposition.
+The three supplementary result workbooks are available in
+[`manuscript_data/`](manuscript_data/README.md), with download links and SHA-256
+checksums. They contain manuscript tables, figure source values, timing records
+and numerical diagnostics. The workbooks are unchanged from the submission
+files; no analyses were rerun for this data deposit.
+
+This repository is not the complete experimental archive: full processed
+benchmarking inputs, all scenario predictions and comparator build materials
+are not supplied by these result workbooks. No permanent data/software DOI has
+yet been assigned to this deposit.
 
 ## License and development
 
