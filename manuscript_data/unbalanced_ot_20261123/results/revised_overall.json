@@ -1,0 +1,20 @@
+{
+  "configurations": 96,
+  "timing_records": 576,
+  "combined_timing_records": 2304,
+  "median_speedup": 1.3424001488429855,
+  "median_with_initialization": 1.2632601591522237,
+  "faster": 57,
+  "slower": 39,
+  "min_speedup": 0.2894475979460592,
+  "max_speedup": 6.255262331114055,
+  "local_median": 2.2639554591357047,
+  "stress_median": 0.9776566106798014,
+  "all_score_maxabs": 5.419838361997442e-07,
+  "all_label_disagreements": 0,
+  "pot_score_maxabs": 5.406267655772013e-08,
+  "pot_label_disagreements": 0,
+  "max_residual": 9.999785888226144e-09,
+  "fallback_scenarios": 574,
+  "scenario_count": 3840
+}

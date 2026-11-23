@@ -1,0 +1,46 @@
+{
+  "README.md": {
+    "sha256": "9e99b3268ec42b17a549af5c7ae60e92ce71ae6be96c615da436d66908648e51",
+    "bytes": 4092
+  },
+  "README_zh.md": {
+    "sha256": "880bb742bd39206f43e6f49c646fff4c4ef9b38004a7f30f1dc9420ad2aebcd1",
+    "bytes": 2082
+  },
+  "SUPPLEMENT.md": {
+    "sha256": "f05d52bcef89f1177332eba2972f312c1c4a01c85f86eb62998e144d279affcc",
+    "bytes": 18385
+  },
+  "Supplementary_Addendum_Unbalanced_OT.docx": {
+    "sha256": "d2d0c4c89fc4ce732862d6fa1f21ceeaf35b9989ddeb603ea6ba1f9ad7b85359",
+    "bytes": 165624
+  },
+  "Supplementary_Addendum_Unbalanced_OT.pdf": {
+    "sha256": "77477a2be82952cc33371418fb8ba48fcd239414b8ecfa7031de6770ce65ef96",
+    "bytes": 382377
+  },
+  "Supplementary_Data_U1.zip": {
+    "sha256": "d73406f8bdbccbb9248e7410521da2e5a45cdcc553689f817d4f2eb7dad118bd",
+    "bytes": 8727072
+  },
+  "figures/Figure_SU1.svg": {
+    "sha256": "4ffa7e7ec59608d499e807bc1baf570b9ee9405716331820c3b2c873f33b59a9",
+    "bytes": 35219
+  },
+  "results/configuration_summary.csv": {
+    "sha256": "1cf369f3bfd8b302a6ec90cad2390f5108a7580f811dd38eece8ae91f2dc0b3b",
+    "bytes": 37541
+  },
+  "results/revised_by_tau.csv": {
+    "sha256": "e4dc5dd51f2f7b8c5a43cece528d8e444f7c8a7a555f277515929eaadea05fbc",
+    "bytes": 397
+  },
+  "results/revised_configuration_summary.csv": {
+    "sha256": "a2136e2bbd9b8c8565def5bbe144526e78a5bb5a4c8d60f91ac5e4c1d01a86cc",
+    "bytes": 28539
+  },
+  "results/revised_overall.json": {
+    "sha256": "6f9bc16cc599ba67acaeaf0c4a24f4006f54b604641776c49b8b924d4de4fa72",
+    "bytes": 610
+  }
+}

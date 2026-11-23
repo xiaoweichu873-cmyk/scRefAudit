@@ -17,6 +17,20 @@ The numerical kernel is copied unchanged from the manuscript code. Its hashes
 are recorded in `validation/kernel_provenance.json`. This software release does
 not change the paper's results or rerun its performance benchmark.
 
+## Exploratory unbalanced OT extension — 23 November 2026
+
+A separate [KL-unbalanced OT addendum](manuscript_data/unbalanced_ot_20261123/README.md)
+provides the derivation, all 96 benchmark configurations, numerical checks, and
+exact code and prepared inputs. The revised method was faster in 57/96 settings,
+with a median paired audit ratio of **1.34×** (**1.26×** including common
+initialization). The median was **2.26×** for local perturbations and **0.98×**
+for larger perturbations; all speedups and slowdowns are retained.
+
+The initial five-control comparison and the subsequent fallback retest used the
+same development inputs. This is an experimental solver extension with a
+first-order predictor, separate from the current balanced R/Python interface.
+See the addendum for timing definitions, scope and reproduction commands.
+
 ## Installation
 
 ### R / RStudio
