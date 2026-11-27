@@ -1,0 +1,26 @@
+{
+  "source_task": "kang_f0",
+  "n_reference": 4800,
+  "n_query": 3000,
+  "unique_references": 4800,
+  "original_references_unchanged": true,
+  "query_cells_unchanged": true,
+  "new_cells_projected_with_original_reference_fit": true,
+  "reference_donors": [
+    "patient_1015",
+    "patient_1039",
+    "patient_1244",
+    "patient_1488"
+  ],
+  "reference_counts": [
+    574,
+    1134,
+    2356,
+    105,
+    98,
+    215,
+    33,
+    285
+  ],
+  "sha256": "1725c055fa7ad4be3c7da1fbc2cea832ab46315d069be64addee9a849a237d43"
+}

@@ -1,0 +1,9 @@
+task,references,confidence,entropy,margin,linear_radius
+hao_f0,300,59,43,82,97
+hao_f0,1200,64,52,87,100
+hao_f1,300,65,50,66,85
+hao_f1,1200,51,40,63,83
+kang_f0,300,36,23,39,52
+kang_f0,1200,34,23,35,39
+kang_f1,300,45,25,46,55
+kang_f1,1200,48,31,48,54

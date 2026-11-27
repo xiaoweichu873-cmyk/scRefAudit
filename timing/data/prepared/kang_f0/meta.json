@@ -1,0 +1,54 @@
+{
+  "name": "kang_f0",
+  "fold": 0,
+  "n_reference": 1200,
+  "n_query": 3000,
+  "classes": [
+    "B cells",
+    "CD14+ Monocytes",
+    "CD4 T cells",
+    "CD8 T cells",
+    "Dendritic cells",
+    "FCGR3A+ Monocytes",
+    "Megakaryocytes",
+    "NK cells"
+  ],
+  "reference_donors": [
+    "patient_1015",
+    "patient_1039",
+    "patient_1244",
+    "patient_1488"
+  ],
+  "query_donors": [
+    "patient_101",
+    "patient_1016",
+    "patient_107",
+    "patient_1256"
+  ],
+  "reference_pool": 7109,
+  "query_pool": 5352,
+  "ref_counts": [
+    149,
+    283,
+    584,
+    27,
+    20,
+    65,
+    11,
+    61
+  ],
+  "query_counts": [
+    272,
+    677,
+    1193,
+    385,
+    77,
+    160,
+    3,
+    233
+  ],
+  "selected_genes": 3000,
+  "preprocess_seconds": 0.7612977199996749,
+  "protein_channels": 0,
+  "input_sha256": "c4a9d24960a859aaedda6d3bef9bb99e68cb5b9bda3c7777a2dc906e12841504"
+}

@@ -1,190 +1,38 @@
-# scRefAudit
+# scRefAudit balanced optimal transport experiments
 
-**Single-cell reference-composition audit**
+This download accompanies the Technical Note *Efficient reference composition sensitivity analysis for single-cell annotation*. It contains the prepared input matrices, frozen cell-level results, the research implementation and the two benchmark protocols for **Figure 2B and Table 1** (review yield) and **Figure 5A–B** (timing). It uses the original balanced-transport research drivers. The public scRefAudit R and Python interfaces are released separately at [the project repository](https://github.com/xiaoweichu873-cmyk/scRefAudit). 中文说明见 [README_zh.md](README_zh.md).
 
-scRefAudit checks how balanced optimal-transport cell annotations change when
-the proportions of reference cell types change. It provides a Python package
-and an R interface for the same numerical implementation.
+## Start here
 
-- **Repeated computation:** reuse a baseline curvature factorization across
-  composition scenarios, with optional Taylor initialization and numerical
-  correction.
-- **Targeted checks:** use composition derivatives to propose a change likely
-  to alter a particular cell's assignment.
-- **Review priorities:** rank cells by a local linearized boundary radius.
+Use CPython 3.12 in a Linux x86-64 environment for all three checks. The original Figure 5 timing worker uses Linux process affinity and the bundled CPython 3.12 AVX2/OpenMP extension. Its source, patch, upstream license and build metadata are in `timing/source/regot_followup/` and `timing/results/followup/exact_build_environment.json`. The cross-platform table calculation and the Figure 2B solver do not load the extension.
 
-The numerical kernel is copied unchanged from the manuscript code. Its hashes
-are recorded in `validation/kernel_provenance.json`. This software release does
-not change the paper's results or rerun its performance benchmark.
-
-## Exploratory unbalanced OT extension — 23 November 2026
-
-A separate [KL-unbalanced OT addendum](manuscript_data/unbalanced_ot_20261123/README.md)
-provides the derivation, all 96 benchmark configurations, numerical checks, and
-exact code and prepared inputs. The revised method was faster in 57/96 settings,
-with a median paired audit ratio of **1.34×** (**1.26×** including common
-initialization). The median was **2.26×** for local perturbations and **0.98×**
-for larger perturbations; all speedups and slowdowns are retained.
-
-The initial five-control comparison and the subsequent fallback retest used the
-same development inputs. This is an experimental solver extension with a
-first-order predictor, separate from the current balanced R/Python interface.
-See the addendum for timing definitions, scope and reproduction commands.
-
-## Installation
-
-### R / RStudio
-
-Install `reticulate` first, then the local source archive supplied with this release:
-
-```r
-install.packages("reticulate")
-install.packages("scRefAudit_0.1.0.tar.gz", repos = NULL, type = "source")
-library(scRefAudit)
+```bash
+python3.12 -m venv .venv
+. .venv/bin/activate
+python -m pip install -r requirements-reviewer.txt
+sha256sum -c SHA256SUMS
+python scripts/public_tables.py --out output/tables
+python scripts/review_cells.py --mode frozen --out output/frozen_review.csv
+python scripts/review_cells.py --mode solve --compare-archive --out output/fresh_review.csv
+python scripts/timing_trial.py --out output/timing_trial
 ```
 
-If working from the unpacked repository directory, run `R CMD INSTALL .` in a
-terminal instead. The R interface requires R >= 4.1 and reticulate >= 1.41.
-Reticulate declares NumPy and SciPy dependencies and can provision Python at
-the first computation. This step needs internet access if dependencies are
-not already available. To use an existing compatible environment, set
-`RETICULATE_PYTHON` to that interpreter **before** initializing Python in R.
+## What each command tests
 
-This is a development release, not a CRAN or Bioconductor release. See
-`validation/VALIDATION.md` for the checks actually performed and R test status.
+| Command | Inputs | Expected output |
+|---|---|---|
+| `public_tables.py` | Public supplementary workbooks in `workbooks/`. Every Figure 5 ratio is calculated from individual trial records. | `figure5_ratios.csv`, `table1.csv`, `figure5_from_workbooks.pdf` and `figure2B_from_workbooks.pdf`. Figure 5A shows 10 wins in 11 complete pairs and a median 2.55-fold speedup (0.60–8.10). Figure 5B shows 8 wins in 12, median 1.10-fold. |
+| `review_cells.py --mode frozen` | Baseline probabilities and scores plus archived random-scenario switch masks under `frozen_cells/range/`. | Four top-100 counts for each of eight configurations. Compare with `expected/figure2B_from_frozen.csv`. This step reranks previously computed outputs. |
+| `review_cells.py --mode solve` | Four donor-separated tasks in `timing/data/prepared/{hao_f0,hao_f1,kang_f0,kang_f1}/inputs.npz`. Starts from the prepared embeddings, fits the baseline, evaluates derivatives and solves new compositions. | The 32 top-100 counts match `expected/table1_counts.csv`. The rounded means for confidence, entropy, top-two margin and linearized radius are 50.25, 35.88, 58.25 and 70.63. With `--compare-archive`, all 768,000 scenario labels are checked after fitting. The maximum marginal residual in the archived replay was below 10⁻⁷. |
+| `timing_trial.py` | Prepared embeddings and archived mixtures; two configurations, three methods, three independent worker runs. Additional reference sizes for the full grid are included under `timing/data/prepared/`. | 18 trial records in `timings.csv`, worker logs and probabilities. The archived independent check found median AA2/proposed ratios of 0.86 for Kang fold 1 (1,200 references, ε=0.10, 16 scenarios) and 4.78 for Hao P1 (1,200 references, ε=0.05, 64 scenarios). These illustrative timings depend on the hardware. |
 
-### Python
+For the full five-arm timing grid, run `python scripts/timing_trial.py --grid --out output/full_timing`. Use a fresh output directory. The historical grid contained 180 planned trials: 152 completed, 10 timed out and 18 were skipped after a previous failure. All 36 proposed-method trials completed. The median 2.55-fold value is the historical research-benchmark result. The fresh trial in this release covers two configurations. Time for rebuilding common geometry and the common baseline is recorded separately.
 
-From the repository directory:
+Each review configuration uses 1,000 query cells, 300 or 1,200 reference cells, and 96 random compositions across seeds 20261106, 20261107 and 20261108, at centered log-weight radius 0.10. A cell counts once if its top label changes in any scenario. A change identifies reference-composition sensitivity. The review benchmark does not adjudicate cell identity. The raw GEO counts to PCA preprocessing step was not rerun in this check.
 
-```sh
-python -m pip install .
-python examples/quickstart.py
-```
+## Versions and provenance
 
-Alternatively install the supplied wheel. Python >= 3.10, NumPy >= 1.26 and
-SciPy >= 1.11 are required. A PyPI release has not been published.
-
-## Quick start in R
-
-```r
-library(scRefAudit)
-x <- demo_audit_data()           # synthetic example, not study data
-fit <- audit_fit(x$cost, x$labels, epsilon = x$epsilon)
-
-# Compare 16 directed and 16 random checks, each moving 1% of class mass.
-checks <- stress_test(fit, budget = 16L, radius = 0.01, metric = "tv", seed = 37L)
-checks$comparison
-review_cells(fit, top_n = 10L)
-
-# Supply your own reference compositions, one row per scenario.
-p0 <- fit$baseline_proportions
-p1 <- 0.9 * p0 + 0.1 * rep(1 / length(p0), length(p0))
-result <- audit_compositions(fit, rbind(p0, p1), order = 2L)
-head(result$cells)
-```
-
-Named proportion columns are aligned to `fit$classes`; unnamed columns must
-already follow that order. Values must be positive and rows must sum to one.
-R indices, including anchors and fallback indices, are **one-based**.
-
-## Quick start in Python
-
-```python
-from screfaudit import ReferenceAudit, demo_data
-
-fit = ReferenceAudit(**demo_data())
-checks = fit.stress_test(budget=16, radius=0.01, metric="tv", seed=37)
-print(checks["comparison"])
-print(fit.review_cells(top_n=10))
-```
-
-Python indices are **zero-based**. Probability arrays, when requested with
-`return_probabilities=True`, have axes `(query cell, scenario, class)`.
-`CompositionAudit` remains available for compatibility with the manuscript API.
-
-## Using real single-cell data
-
-Supply a **fixed query-by-reference cost matrix** and reference annotations.
-Choose normalization, features, representation and distance scaling before
-fitting. Keep query cells, reference cells, costs and epsilon fixed within an
-audit. Reference weights are varied within the existing classes; zero weights,
-missing reference classes and unbalanced OT are outside this implementation.
-
-The package does not load raw counts or refit an atlas automatically. It can
-be inserted after a reference-based representation and distance matrix have
-been calculated. In R, `result$cells` is an ordinary data frame with `cell_id`;
-it can be joined to a Seurat metadata table by that identifier. See
-`docs/R_WORKFLOW.md` for a minimal example.
-
-## Reading the results
-
-| Output | Meaning |
-|---|---|
-| `switch_frequency` | Fraction of evaluated scenarios changing a cell's baseline label |
-| `max_probability_change` | Largest class-score change from baseline |
-| `probability_span` | Largest class-score range across evaluated scenarios |
-| `linearized_radius` | Local approximation to a score-boundary distance in centered log-weight L2 space |
-| `detected_fraction` | Fraction of all queries changed by at least one scenario |
-| `anchor_hit_fraction` | Fraction of selected anchors changed by their own paired scenario |
-| `actual_tv` | Half the sum of absolute changes in reference class proportions |
-
-All finite proposed scenarios are corrected before labels are reported.
-Fallback use and final marginal residuals remain in the returned diagnostics.
-Different `log_weight` directions can produce different actual TV changes.
-Use `metric="tv"` for comparisons at matched actual composition change.
-An unreachable TV request raises an error rather than being silently reduced.
-
-Sensitivity is a dependence on reference weights. It is not a probability of
-misannotation, an absolute cell count, or experimental validation of cell identity.
-The linearized radius is not an exact certified robustness radius.
-
-## Computational scope
-
-This is a dense CPU implementation. Kernel/curvature storage is
-`O(n_query*n_reference + n_reference^2)`. Scenario batching limits temporary
-arrays; returning full probabilities additionally stores
-`n_query*n_scenarios*n_classes` values. Derivative-based ranking has further
-class-Jacobian storage. Use a suitable reference subset for large atlases.
-Small easy workloads can favor ordinary accelerated Sinkhorn. The new R and
-Python wrapper has not been assigned the manuscript's 2.55-fold speedup.
-
-## Tests and provenance
-
-```sh
-python -m unittest discover -s tests/python -v
-SCREFAUDIT_RUN_R_TESTS=true Rscript tests/smoke.R
-```
-
-Tests cover an independently implemented log-domain Sinkhorn reference,
-finite-difference derivatives, matched TV, batching, intended-anchor endpoints,
-fallback, and invalid input. `validation/` records checks performed for this
-release. The accompanying GitHub workflow tests Python and the R interface on
-Linux and macOS when it is run; its results are not preclaimed here.
-
-## Manuscript and citation
-
-Preprint: *Efficient reference composition sensitivity analysis for single-cell
-annotation*, DOI [10.21203/rs.3.rs-11637549/v1](https://doi.org/10.21203/rs.3.rs-11637549/v1).
-The newer submission manuscript contains additional controls and analyses.
-
-The three supplementary result workbooks are available in
-[`manuscript_data/`](manuscript_data/README.md), with download links and SHA-256
-checksums. They contain manuscript tables, figure source values, timing records
-and numerical diagnostics. The workbooks are unchanged from the submission
-files; no analyses were rerun for this data deposit.
-
-This repository is not the complete experimental archive: full processed
-benchmarking inputs, all scenario predictions and comparator build materials
-are not supplied by these result workbooks. No permanent data/software DOI has
-yet been assigned to this deposit.
-
-## License and development
-
-MIT; see `LICENSE.md`. This uses the license proposed in the earlier software
-bundle; authors should confirm the release metadata before public deposition.
-NumPy, SciPy and reticulate are external dependencies under their own licenses.
-SSNS/SPLR source code is not bundled here. Software packaging and interface
-development were assisted by OpenAI ChatGPT/Codex.
-
-Chinese instructions: [README_zh.md](README_zh.md).
+- The fixed workbook release is commit `abdbacfcfe5868e08c4e87e4f87691225b31d003`. The source workbook sheet `Table_4` corresponds to **Table 1** in the Technical Note. Older filenames, original code and workbook indexes use **Figure 7B / Table 4** for the review counts and **Figure 4** for the timing comparison.
+- The research implementation in the two archives identifies itself as `sopc_ot 0.2.0.dev0`. The archived Figure 5 driver `timing/run_followup.py` has SHA-256 prefix `3b065dac975b`. The archived range driver `review/range_extension/scripts/run_range.py` has prefix `b39fb79002b8`. The original derivative/score and random-only ranking scripts have prefixes `1fdf88559a40` and `566f67f8f568`, respectively. The protocol and amendment, software environment, raw archived output hashes and exact figures tested are recorded in `expected/verification.json`; `SHA256SUMS` covers the files shipped here.
+- The included replay scripts use v5 display numbers. The four 1,200-reference starting archives are shared between the two analyses and stored once. To run the broader original range study using its original path convention, run `python scripts/restore_archived_layout.py` first. Restoration checks each file against the author's original digest.
+- Original expression datasets: Kang [GSE96583](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96583) and Hao [GSE164378](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE164378). Source provenance records and task-specific metadata accompany the computed embeddings. The original sources retain their terms. scRefAudit software uses the project MIT license. Third-party RegOT code keeps its own MIT notice under `timing/source/regot_followup/LICENSE`.

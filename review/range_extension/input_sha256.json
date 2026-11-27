@@ -1,0 +1,10 @@
+{
+  "inputs/original_tasks/hao_f0/meta.json": "1350ba01172b0aa50bb17399e4115db95a083a6c385664b5d6c362bb1c912c9a",
+  "inputs/original_tasks/hao_f0/inputs.npz": "2938405b5a8d5460214e07bd99ab9cf9557309beef14e0b88c3aceb39b461ece",
+  "inputs/original_tasks/kang_f1/meta.json": "16133a6955fef308677deec3836cbb36adb9e82e705ccb34ef1937ece59ab29a",
+  "inputs/original_tasks/kang_f1/inputs.npz": "7641454355191ce76055aa9a33a0d334a6656b2f3e1011e63ea083b387ccfce5",
+  "inputs/original_tasks/hao_f1/meta.json": "0509f625a1e7eb76cc1984bf893fc223ec1e99fbd400ce1de5e322d80c5c37b8",
+  "inputs/original_tasks/hao_f1/inputs.npz": "b95a68b41d3468e4992b4fabf0c3ce8971f0ac4f79e8ca084be6badd282ae186",
+  "inputs/original_tasks/kang_f0/meta.json": "4c2923ef9c8d93a9a1c2422ace022e5a76d18576a8f566ffe47fa01820f65ff0",
+  "inputs/original_tasks/kang_f0/inputs.npz": "c4a9d24960a859aaedda6d3bef9bb99e68cb5b9bda3c7777a2dc906e12841504"
+}

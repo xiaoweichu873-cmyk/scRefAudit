@@ -1,0 +1,38 @@
+{
+  "utc": "2026-11-02T08:08:41.635634+00:00",
+  "timing": "After original Kang f0 epsilon .05 B16 default SSNS and SPLR timed out; before any CG hybrid benchmark results.",
+  "reason": "Strengthen competitors by enabling their native CG option and the same batched AA2 safety net that our chord implementation already has. Avoid repeating deterministic time-budget failures.",
+  "overrides": {
+    "methods": [
+      "reuse_AA2",
+      "reuse_chord",
+      "quadratic_chord",
+      "SSNS_CG_AA2",
+      "SPLR_CG_AA2"
+    ],
+    "skip_repeated_failure": true
+  },
+  "published_configuration": {
+    "native_linear_solver": "CG (authors option method=0)",
+    "native_max_iterations": 40,
+    "fallback": "Unfinished scenarios corrected together with identical AA2 baseline at L1 tolerance 1e-7; all time charged. All prior approximate potentials available for nearest-scenario warm starts.",
+    "note": "These are transparent safeguarded adaptations, not unchanged out-of-box SSNS or SPLR. Default LDLT results remain separate pilot evidence and are not pooled with amended trials."
+  },
+  "unchanged": [
+    "all data and scenarios",
+    "reference sizes",
+    "tolerance",
+    "three planned repeats",
+    "180 s budget",
+    "primary CPU affinity and memory recording",
+    "all own-method algorithm parameters"
+  ],
+  "interpretation": "Amendment prompted by observed initial runtime. The study is exploratory; do not claim the entire revised design predates all results.",
+  "prebenchmark_synthetic_note": "At 100x80 synthetic size, the native CG option can produce nonfinite iterates. The safeguard detects and records those cases, resets their initializer to the valid base solution and runs the common AA2 fallback. No invalid probabilities are accepted.",
+  "code_correction": {
+    "utc": "2026-11-02T08:20:13.403450+00:00",
+    "observed": "Checked source sinkhorn_cg.h reports m rows/columns but sinkhorn_cg.cpp constructs an m-1 Schur RHS and apply_Deltax returns m-1 entries.",
+    "fix": "Correct wrapper rows/cols to m-1 and SSNS cached direction slice to m-1. Preserve before-fix records as excluded implementation diagnostics; rerun all affected main comparator trials.",
+    "protocol_change": "No change in workloads, tolerance or own algorithms. Comparator implementation correction documented in source patch."
+  }
+}

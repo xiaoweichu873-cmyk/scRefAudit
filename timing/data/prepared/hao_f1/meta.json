@@ -1,0 +1,47 @@
+{
+  "name": "hao_f1",
+  "fold": 1,
+  "n_reference": 1200,
+  "n_query": 3000,
+  "classes": [
+    "B",
+    "CD4 T",
+    "CD8 T",
+    "DC",
+    "Mono",
+    "NK",
+    "other T"
+  ],
+  "reference_donors": [
+    "P1",
+    "P3",
+    "P4"
+  ],
+  "query_donors": [
+    "P2"
+  ],
+  "reference_pool": 49060,
+  "query_pool": 16995,
+  "ref_counts": [
+    71,
+    390,
+    196,
+    22,
+    364,
+    115,
+    42
+  ],
+  "query_counts": [
+    259,
+    990,
+    606,
+    51,
+    627,
+    299,
+    168
+  ],
+  "selected_genes": 3000,
+  "preprocess_seconds": 6.3195739550001235,
+  "protein_channels": 228,
+  "input_sha256": "b95a68b41d3468e4992b4fabf0c3ce8971f0ac4f79e8ca084be6badd282ae186"
+}

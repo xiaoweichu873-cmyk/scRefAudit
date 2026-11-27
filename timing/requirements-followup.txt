@@ -1,0 +1,12 @@
+numpy==2.3.5
+scipy==1.17.0
+pandas==2.2.3
+scikit-learn==1.8.0
+POT==0.9.6.post1
+h5py==3.16.0
+anndata==0.11.4
+psutil==7.2.2
+pybind11==3.1.0
+threadpoolctl==3.6.0
+matplotlib==3.10.8
+python-docx==1.2.0

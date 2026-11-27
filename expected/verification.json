@@ -1,0 +1,55 @@
+{
+  "checked": "2026-11-27",
+  "python": "3.12.14",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "packages": {
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "pandas": "2.2.3",
+    "openpyxl": "3.1.5",
+    "matplotlib": "3.10.8",
+    "anndata": "0.11.4",
+    "POT": "0.9.6.post1",
+    "psutil": "7.2.2",
+    "scikit-learn": "1.8.0",
+    "threadpoolctl": "3.6.0",
+    "h5py": "3.16.0"
+  },
+  "numerical_threads": 1,
+  "public_workbooks_commit": "abdbacfcfe5868e08c4e87e4f87691225b31d003",
+  "public_tree_checked": "7969588a5194bf6b8e02256992139ae92e4c22bc",
+  "author_archive_sha256": {
+    "OT_Code_Data.zip": "9c596d07e196140e4c51936106bcbb0b1ace6d209148fe3541ac327a015dd8e6",
+    "OT_immune_specialty_code_results.zip": "cf14d391a623d938cb0b957dff84b7fbfb85fe9aba31c8029f71413a443c3017",
+    "OT_applicability_code_results_20261105.zip": "251ed948864d395bca19271bf0f18a9db94ca74459873ee139d911b9a5518810",
+    "OT_review_completion_code_results_20261105.zip": "6393ff25cf23938dee44b10ff835ea3f392fbdaa26d6ca18a1d4c243376e4648"
+  },
+  "code_and_protocol_sha256": {
+    "timing/run_followup.py": "3b065dac975b753576a3f2e95103a4e559168814e2c91360e30cddddf7bcca30",
+    "review/range_extension/scripts/run_range.py": "b39fb79002b8227dbba6d46e0c7a9da5fd9dd06bbe786d3d35aae52484f07fd0",
+    "review/scripts/02_validation.py": "1fdf88559a407b084ef70eae6baa09b020f9a3b8252c4ff38df6f7b36484c4af",
+    "review/scripts/analyze_completion.py": "566f67f8f56854307b57edafb14b2b3f096a0deb7756b75d6d75f90c3fcea2e7",
+    "timing/protocol_followup.json": "43cfc71f72a958bdfcb6a27be59cd52e42a6deac74e590eb5745280852aa158c",
+    "timing/protocol_followup_amendment.json": "a37e13f8a50217ae0006d019a1025a37fa414273f8bad7b554dfda9b2f5cdc31",
+    "review/range_extension/protocol.json": "dd852901e11ab2fcab7a1d519e3fdca6b4f6fc46c1d792b7086a2e22e1f58469",
+    "timing/source/regot_followup/regot_followup.cpython-312-x86_64-linux-gnu.so": "525fb24d0bf274f6a79bf4051ee11a8db3eb0fd66bd2583f25c5dc599c729c72"
+  },
+  "timing": {
+    "fresh_configurations": 2,
+    "arms_per_configuration": 3,
+    "independent_process_repeats": 3,
+    "successful_trials": 18,
+    "max_marginal_residual": 9.912436261139568e-08,
+    "all_180_fresh_trials_rerun": false
+  },
+  "review": {
+    "configs": 8,
+    "random_scenarios_per_config": 96,
+    "query_cells_per_config": 1000,
+    "scenario_labels_compared_per_entry": 768000,
+    "disagreements_with_archived_scenario_labels": 0,
+    "max_marginal_residual": 9.998935032815709e-08,
+    "matches_public_counts_in_all_32_entries": true,
+    "raw_counts_preprocessing_rerun": false
+  }
+}

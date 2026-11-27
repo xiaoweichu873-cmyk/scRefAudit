@@ -1,0 +1,110 @@
+{
+  "frozen_utc": "2026-11-02T07:47:32.415003+00:00",
+  "status": "frozen before any real-data followup timing",
+  "seed": 20261102,
+  "questions": [
+    "nearest published methods with genuine warm starts",
+    "scaling genuine reference cells"
+  ],
+  "main_configs": [
+    {
+      "task": "kang_f0",
+      "m": 1200,
+      "eps": 0.05,
+      "B": 16
+    },
+    {
+      "task": "kang_f0",
+      "m": 1200,
+      "eps": 0.1,
+      "B": 16
+    },
+    {
+      "task": "hao_f0",
+      "m": 1200,
+      "eps": 0.05,
+      "B": 16
+    },
+    {
+      "task": "hao_f0",
+      "m": 1200,
+      "eps": 0.1,
+      "B": 16
+    },
+    {
+      "task": "kang_f0",
+      "m": 1200,
+      "eps": 0.05,
+      "B": 64
+    },
+    {
+      "task": "hao_f0",
+      "m": 1200,
+      "eps": 0.05,
+      "B": 64
+    },
+    {
+      "task": "kang_f1",
+      "m": 1200,
+      "eps": 0.05,
+      "B": 16
+    },
+    {
+      "task": "hao_f1",
+      "m": 1200,
+      "eps": 0.05,
+      "B": 16
+    }
+  ],
+  "scale_configs": [
+    {
+      "task": "kang_f0",
+      "m": 2400,
+      "eps": 0.05,
+      "B": 64
+    },
+    {
+      "task": "kang_f0",
+      "m": 4800,
+      "eps": 0.05,
+      "B": 64
+    },
+    {
+      "task": "hao_f0",
+      "m": 2400,
+      "eps": 0.05,
+      "B": 64
+    },
+    {
+      "task": "hao_f0",
+      "m": 4800,
+      "eps": 0.05,
+      "B": 64
+    }
+  ],
+  "methods": [
+    "reuse_AA2",
+    "reuse_chord",
+    "quadratic_chord",
+    "SSNS_nearest",
+    "SPLR_nearest"
+  ],
+  "repeats": 3,
+  "threads": 1,
+  "method_timeout_s": 180,
+  "tolerance": 1e-07,
+  "common_base_tolerance": 1e-11,
+  "max_iterations": 10000,
+  "published_code": "RegOT official CPU implementations SSNS NeurIPS 2024 and SPLR ICML 2025",
+  "comparator_changes": [
+    "Expose existing C++ x0 through a minimal Python wrapper; official Python kwargs silently ignore it.",
+    "Replace only stopping test with same full row/column marginal L1 criterion; retain L2 norm in all internal algorithm parameters.",
+    "Allow greedy nearest-neighbour scenario order and choose closest previous or base dual in class-mixture L1; count ordering/setup/readout in measured time."
+  ],
+  "reuse_limits": "Official C++ APIs expose x0 but not cross-call factor/history state. Both methods may reuse solved duals. Their algorithmic Hessian update rules remain unchanged. Not claimed a comparison against optimally redesigned batched competitors.",
+  "scaling_data": "Keep original query cells, gene normalization and PCA. Original 1200 refs plus nested independently seeded draws without replacement from remaining eligible donors. No copied cells. Uniform b per size; reconstruct mild mixtures as .75*new p0+.25*original donor mixture. Fixed cost median from original 1200 refs.",
+  "measurement": "One fresh process per method run, sequential randomized balanced order. wall clock complete audit including setup/prediction/correction/class readout; excludes common preprocessing/base fit but records common-base time. Absolute process high-water RSS plus per-audit sampling and baseline RSS. Same affinity one CPU.",
+  "accuracy": "Compare all scenarios to batched AA2 when successful; verify each method independently at three representative scenarios with POT tighter tolerance. Synthetic warm-start and stopping tests before real-data benchmark.",
+  "failures": "Each method gets all 3 trials regardless of previous outcomes. Timeout/failed residuals retained, no finite speedup from censored entries. Do not alter protocol after seeing results; amendments explicit.",
+  "interpretation": "No new mathematical novelty claim; measured software/workflow advantage only, not superior annotation accuracy or journal acceptance."
+}

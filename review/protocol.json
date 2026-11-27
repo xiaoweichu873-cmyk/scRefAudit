@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-05",
+  "purpose": "Test additional algorithmic benefit beyond shared-curvature acceleration; no paper-code audit",
+  "development_status": "exploratory extension; fixed before new experiment outcomes, not registered",
+  "inputs": ["HCC_Myeloid", "IPF_Mesenchymal", "IPF_Epithelial"],
+  "qc": "Reuse the archived per-capture scDblFinder and standard-metric QC; raw counts and all original labels retained",
+  "splits": "5 donor folds; each rotation uses 3 folds for reference, one for calibration, one for test. Stratify lung Control/PF. No donor occurs in more than one role within a rotation. Each donor is test once. HCC paired tissues remain together.",
+  "geometry": {"reference_cells": 384, "query_cap_per_sample": 500, "features": 2000, "PCA": 30, "distance": "median-scaled cosine", "epsilon": 0.05, "tol": 1e-7, "seed": 20261105},
+  "uncertainty_scenarios": "baseline + 8 centered log-weight draws at SD0.05 and8 atSD0.10; fixed across queries within a reference",
+  "primary_algorithm_endpoint": "At centered log-weight L2 radius0.10, compare32 gradient-directed scenarios with32 random scenarios, with all scenarios numerically corrected. Anchors are32 uniformly sampled test cells, not selected by uncertainty or observed switches. Report intended-anchor hit rate and all-query any-switch fraction separately.",
+  "secondary_algorithm_endpoint": "Repeat the same matched-budget directional comparison at radius0.20; this is not a 20% relative-mass bound.",
+  "derivative": "Chain-rule transform of implicit class-mass derivatives to centered log weights; first-order gap/norm proposal is not a certified global robustness radius",
+  "reference_labels": "Author-provided labels are benchmark targets for disagreement, not experimental truth",
+  "selective_prediction": "At80% fine-label coverage per test query compare confidence, entropy, local switch rate with entropy tie-break, worst scenario margin, linearized radius, and donor-calibrated logistic confidence-only versus confidence-plus-sensitivity. Fit only calibration donor labels; test labels used only for evaluation. Curves at50,60,70,80,90,100% included.",
+  "controlled_missing_class": "Separate challenge: remove one reference class chosen without test labels (most abundant class supported by>=3 reference donors); recompute baseline and local scenarios on the same RNA features and projections. Do not count this changed problem as the original solver's acceleration. Compare confidence, nearest-reference distance, and sensitivity for identifying the withheld author label. Report retained-known/unknown tradeoff.",
+  "statistics": "Within-query comparisons; average tissues within donor then bootstrap donors within each compartment (2000 draws, fixed seed) for paired differences. The two lung compartments share donors and are not independent cohorts. No cell-level significance tests. All failures and opposite results retained.",
+  "numerical_validation": "Central finite differences of the log-mass derivative and independent POT solutions on first completed test query per compartment; identical corrected scenarios for active/random comparison",
+  "manuscript_rule": "Integrate only supported benefits; retain original speed benchmark unchanged. Sensitivity to reference weights is not diagnostic sensitivity/recall, and less switching is not automatically improved accuracy. Confidence rejection and conformal annotation are existing ideas and must be cited."
+}

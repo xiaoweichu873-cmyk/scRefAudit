@@ -1,0 +1,22 @@
+{
+  "numpy": "2.3.5",
+  "scipy": "1.17.0",
+  "pandas": "2.2.3",
+  "scikit-learn": "1.8.0",
+  "POT": "0.9.6.post1",
+  "h5py": "3.16.0",
+  "anndata": "0.11.4",
+  "pybind11": "3.1.0",
+  "psutil": "7.2.2",
+  "threadpoolctl": "3.6.0",
+  "adapter_binary_sha256": "525fb24d0bf274f6a79bf4051ee11a8db3eb0fd66bd2583f25c5dc599c729c72",
+  "compiler": "GCC 13.3.0",
+  "Eigen": "3.4.0",
+  "flags": [
+    "-O3",
+    "-mavx2",
+    "-fopenmp",
+    "-DNDEBUG"
+  ],
+  "CG_dimension_fix": true
+}

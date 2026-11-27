@@ -1,0 +1,76 @@
+--- upstream/sinkhorn_cg.h
++++ adapter/sinkhorn_cg.h
+@@ -50,8 +50,8 @@
+     };
+ 
+     // Dimensions
+-    Index rows() const { return m_hess.size_m(); }
+-    Index cols() const { return m_hess.size_m(); }
++    Index rows() const { return m_hess.size_m() - 1; }
++    Index cols() const { return m_hess.size_m() - 1; }
+ 
+     // Matrix product
+     template <typename Rhs>
+--- upstream/sinkhorn_ssns.cpp
++++ adapter/sinkhorn_ssns.cpp
+@@ -12,6 +12,15 @@
+ 
+ using Vector = Eigen::VectorXd;
+ using Matrix = Eigen::MatrixXd;
++
++// Benchmark adapter: the omitted last column gradient follows from total mass.
++// L2 gnorm remains unchanged in every algorithmic parameter and update.
++inline double common_marginal_error(const Vector& g, int n) {
++    const auto r = g.head(n);
++    const auto c = g.tail(g.size()-n);
++    return std::max(r.cwiseAbs().sum(), c.cwiseAbs().sum()+std::abs(r.sum()-c.sum()));
++}
++
+ 
+ void sinkhorn_ssns_internal(
+     SinkhornResult& result,
+@@ -106,7 +115,7 @@
+         timer.tic();
+ 
+         // Convergence test
+-        if (gnorm < tol)
++        if (common_marginal_error(g, n) < tol)
+             break;
+ 
+         // Compute search direction
+@@ -121,7 +130,7 @@
+         {
+             // No update in previous iteration
+             // Use last direction for warm start
+-            lin_sol.cg_x0.noalias() = direc.tail(m);
++            lin_sol.cg_x0.noalias() = direc.tail(m - 1);
+         } else {
+             lin_sol.cg_x0.setZero();
+         }
+--- upstream/sinkhorn_splr.cpp
++++ adapter/sinkhorn_splr.cpp
+@@ -12,6 +12,15 @@
+ 
+ using Vector = Eigen::VectorXd;
+ using Matrix = Eigen::MatrixXd;
++
++// Benchmark adapter: the omitted last column gradient follows from total mass.
++// L2 gnorm remains unchanged in every algorithmic parameter and update.
++inline double common_marginal_error(const Vector& g, int n) {
++    const auto r = g.head(n);
++    const auto c = g.tail(g.size()-n);
++    return std::max(r.cwiseAbs().sum(), c.cwiseAbs().sum()+std::abs(r.sum()-c.sum()));
++}
++
+ 
+ // Convert density of T to density of H
+ inline double density_T2H(double denT, int n, int m)
+@@ -115,7 +124,7 @@
+ 
+         // Convergence test
+         // Also exit if objective function value is not finite
+-        if ((gnorm < tol) || (!std::isfinite(f)))
++        if ((common_marginal_error(g, n) < tol) || (!std::isfinite(f)))
+             break;
+ 
+         // Compute y and s

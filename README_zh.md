@@ -1,89 +1,12 @@
-# scRefAudit：单细胞参考组成检查
+# scRefAudit 平衡最优传输复现
 
-名字由 **sc（single-cell）＋Ref（reference）＋Audit（检查）** 组成。
-它把论文中的三个功能放到同一个软件接口里：重复计算加速、指定细胞的定向检查、复核排序。
+本包对应 GigaScience Technical Note 的图 2B／表 1 和图 5。两个实验都能从指定的预处理嵌入启动。代码版本、上游来源、依赖、测试平台与命令均见 [README.md](README.md)；每个文件的校验值见 `SHA256SUMS`。
 
-## 非平衡 OT 探索性扩展（2026-11-23）
+| 用途 | 命令 | 预期输出 |
+|---|---|---|
+| 从公开记录重画图、核算表 | `python scripts/public_tables.py --out output/tables` | 图 5A 的 11 个完整配对中有 10 个更快，中位 2.55 倍。图 5B 中二阶预测相对只复用曲率为 8/12、中位 1.10 倍。 |
+| 用已保存的逐细胞换标结果重新排序 | `python scripts/review_cells.py --mode frozen --out output/frozen_review.csv` | 8 个配置的前 100 个细胞中，导数法与分差法平均分别找到 70.63 和 58.25 个敏感细胞。 |
+| 从四份预处理输入重新求解 | `python scripts/review_cells.py --mode solve --compare-archive --out output/fresh_review.csv` | 8 个配置，每配置 1,000 个细胞、96 种随机参考组成；逐项核对 768,000 个场景标签。 |
+| 从预处理输入重新计时 | `python scripts/timing_trial.py --out output/timing_trial` | 两个配置、每个三个方法、每方法三次独立进程，共 18 条记录。历史试跑中 Kang 的 AA2/提出方法耗时比为 0.86，Hao 为 4.78。新机器的时间会变化。 |
 
-新增了[非平衡 OT 补充说明、结果和完整复现材料](manuscript_data/unbalanced_ot_20261123/README_zh.md)。
-这次在双边 KL 边际惩罚下测试共享曲率与一阶预测：96 种配置中 57 种更快，
-审计耗时中位加速 **1.34 倍**，计入共同初始化为 **1.26 倍**。
-局部扰动中位 **2.26 倍**，较大扰动中位 **0.98 倍**；变慢的配置也全部保留。
-
-首轮五对照比较与回退修订后的复测使用同一组开发数据，不能当作两次独立验证。
-这部分作为独立计算原型提供，当前 R/Python 包接口仍针对平衡 OT。
-
-## 这一版怎么用
-
-这一版有两个入口：
-
-- **Python 包**：`screfaudit`。
-- **R 包接口**：`scRefAudit`，通过 reticulate 调用同一份 Python 核心，可以在 RStudio 中使用。
-
-论文原有求解代码逐字节保留。新加的是安装结构、输入检查、用户接口、说明文档、示例和测试。
-软件命名没有改动论文的标题、预印本 DOI 或数值结果。
-
-## 在 RStudio 安装
-
-先把 `scRefAudit_0.1.0.tar.gz` 下载到电脑，再运行：
-
-```r
-install.packages("reticulate")
-install.packages(file.choose(), repos = NULL, type = "source")
-library(scRefAudit)
-
-x <- demo_audit_data()
-fit <- audit_fit(x$cost, x$labels, epsilon = x$epsilon)
-
-result <- stress_test(fit, budget = 16L, radius = 0.01,
-                      metric = "tv", seed = 37L)
-result$comparison
-review_cells(fit, top_n = 10L)
-```
-
-`file.choose()` 中选择上述 tar.gz 文件，不要选择 GitHub 源码 ZIP。
-首次真正计算时，reticulate 可能需要联网准备 Python、NumPy 和 SciPy。
-R 要求至少 4.1，reticulate 至少 1.41。Apple Silicon 应使用同架构的 R 和 Python。
-这一版尚未上架 CRAN、Bioconductor 或 PyPI；本机测试情况见 `validation/VALIDATION.md`。
-
-## 接实际数据时需要什么
-
-输入是已经准备好的“查询细胞 × 参考细胞”距离矩阵，以及参考细胞标签。
-R 行名可以用真实细胞条形码；返回结果的 `cell_id` 用于对应回原细胞。
-它不是从原始 count 矩阵开始的一键单细胞流程，也不会自动加速 Seurat 的其他步骤。
-
-一次模型拟合后，保持细胞、距离和正则化参数不变，可以反复调整参考类别比例。
-如果更换参考细胞或重做 PCA，需要重新拟合。
-
-## 几个参数的人话解释
-
-- `radius = 0.01, metric = "tv"`：实际参考组成移动 1% 的总质量。
-- `budget = 16L`：定向与随机各检查 16 个场景。
-- `order = 0L`：共享曲率，沿用基准解作起点。
-- `order = 1L` / `2L`：加入一阶 / 二阶预测，再校正到设定精度。
-- `review_cells()`：按局部线性化半径从小到大，列出优先复核的细胞。
-
-标签会变表示依赖参考比例，并不直接说明原来的标签错了。
-所有 R 细胞序号从 1 开始；Python 序号从 0 开始。
-
-## 放到 GitHub
-
-网站：[https://github.com/](https://github.com/)
-
-1. 登录后新建仓库，建议仓库名 `scRefAudit`。
-2. 解压 GitHub 源码 ZIP，进入里面的 `scRefAudit` 文件夹。
-3. 上传这个文件夹里的文件和子文件夹，让 `README.md`、`DESCRIPTION` 和 `pyproject.toml` 位于仓库根目录。
-4. 不需要把论文正文、投稿信、作者内部清单一起上传。
-5. 发布固定版本时可用标签 `v0.1.0`，再通过 GigaDB 或 Zenodo 保存论文对应版本。
-
-网页拖拽通常不会包含隐藏的 `.github` 目录。可用 GitHub Desktop 上传整个目录以保留自动测试配置，
-或在网页中另行添加 `.github/workflows/check.yml`。上传后检查 Actions 的 R 与 Python 测试结果。
-
-代码公开前确认两位作者的软件署名、MIT 许可和引用信息。
-这里交付的是待发布源代码；尚未替你创建或公开任何 GitHub 仓库。
-
-## 这份代码包与论文附件的关系
-
-本包有可运行示例、数值核心和三个功能的接口。它不包含论文全部大型数据、计时对照和第三方求解器构建材料。
-那些复现材料仍使用此前整理的完整档案，投稿时另外提供审稿访问地址。
-论文报告的 2.55 倍来自原有基准实验，不能自动作为新 R 接口在任意电脑上的加速保证。
+完整计时命令为 `python scripts/timing_trial.py --grid --out output/full_timing`。历史调度共 180 条，152 条完成、10 条超时、18 条因前次失败而跳过。2.55 倍对应论文的单线程研究基准。公开 R/Python 接口没有在这次比较中计时。对应的旧编号为图 7B／表 4（换标排序）和图 4（计时），原工作簿保留了这些旧名称。本次复核起点是准备好的嵌入，从 GEO 原始矩阵到 PCA 的步骤尚未验证。

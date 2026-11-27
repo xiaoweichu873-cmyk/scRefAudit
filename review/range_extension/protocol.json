@@ -1,0 +1,18 @@
+{
+ "date":"2026-11-05",
+ "status":"Exploratory range characterization, frozen before these new results; previous positive results already known",
+ "tasks":["kang_f0","kang_f1","hao_f0","hao_f1"],
+ "queries":"1000 uniformly sampled from each original 3000-query task; fixed seed20261106; same queries in every configuration; archived PCA unchanged",
+ "configurations":[[300,"native"],[1200,"native"],[1200,"merged"],[1200,"binary_T"]],
+ "reference_sampling":"300 reference subset, at least2 per native class, remaining uniformly without replacement; 1200 original reference. Uniform baseline reference weights. Common original full cost-median scale.",
+ "label_maps":"merged:CD4/CD8/otherT to T,CD14/FCGR3A monocytes to Mono; binary:T versus other. Applied to reference labels and evaluation labels. Different taxonomies define different perturbation problems.",
+ "radii":[0.03,0.10,0.30],
+ "seeds":[20261106,20261107,20261108],
+ "budgets":[8,16,32],
+ "methods":["directed","random"],
+ "budget_control":"32 uniform random anchors per seed; directed proposals at these anchors and32 isotropic centered random directions; evaluate nested prefixes8/16/32. All query cells scored, not only anchors. Repeated directions retained, duplicates reported.",
+ "solver":"epsilon0.05,order1,chord,fullmarginalL1tol1e-7; baseline and cached derivative setup identical before alternatives;240s per configuration; failed configurations retained; timings diagnostic only",
+ "outputs":"any-switch counts and margins per cell, union of switches across both methods/seeds as a sampled reference set (not exhaustive groundtruth), precision within this sampled union at fixed10% review budget compared to entropy/confidence using derivatives only, no query labels used to find switches",
+ "selective_extension":"Reuse all previous held-out coverage curves50-100%; subgroup Control vsPF for lung andNormal/Tumor liver using metadata; no refitting or changing model. Bootstrap paired donors conditional on fixed models; report all settings, including negatives.",
+ "claim_scope":"Range within existing datasets and fixed RNA geometry. No new cohort, new wall-time speedup, generic classifier, global certified robustness or guaranteed biological truth claim. Existing manuscript not overwritten by exploratory range screening."
+}

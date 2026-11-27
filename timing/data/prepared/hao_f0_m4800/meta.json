@@ -1,0 +1,24 @@
+{
+  "source_task": "hao_f0",
+  "n_reference": 4800,
+  "n_query": 3000,
+  "unique_references": 4800,
+  "original_references_unchanged": true,
+  "query_cells_unchanged": true,
+  "new_cells_projected_with_original_reference_fit": true,
+  "reference_donors": [
+    "P2",
+    "P3",
+    "P4"
+  ],
+  "reference_counts": [
+    362,
+    1523,
+    831,
+    110,
+    1204,
+    482,
+    288
+  ],
+  "sha256": "ac152d542eb07be038b729a024e87afb423e082d48fa4d6ab030128b0109c27a"
+}
