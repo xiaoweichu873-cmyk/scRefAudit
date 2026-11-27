@@ -25,6 +25,10 @@ sheets retain exact source files as ordered JSON-quoted text chunks; their
 reconstruction preserves decimal text, empty fields, and original line endings.
 These source-record sheets are intended for machine reading, not PDF printing.
 
+## Balanced OT experiments
+
+Download the [versioned code and prepared inputs for the review and timing benchmarks](balanced_ot_v5/README.md). The evidence corresponds to Figure 2B / Table 1 and Figure 5 of the Technical Note.
+
 ## Scope and integrity
 
 The workbooks are byte-for-byte copies of the files prepared for submission.

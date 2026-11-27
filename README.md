@@ -174,17 +174,14 @@ checksums. They contain manuscript tables, figure source values, timing records
 and numerical diagnostics. The workbooks are unchanged from the submission
 files; no analyses were rerun for this data deposit.
 
-This repository is not the complete experimental archive: full processed
-benchmarking inputs, all scenario predictions and comparator build materials
-are not supplied by these result workbooks. No permanent data/software DOI has
-yet been assigned to this deposit.
+The [balanced-OT reproducibility download](manuscript_data/balanced_ot_v5/README.md) supplies the exact prepared inputs, research drivers, comparator build sources and expected outputs for Figure 2B / Table 1 and Figure 5. It starts at the prepared embeddings. The complete experimental record for all other analyses is outside the scope of that download.
 
 ## License and development
 
 MIT; see `LICENSE.md`. This uses the license proposed in the earlier software
 bundle; authors should confirm the release metadata before public deposition.
 NumPy, SciPy and reticulate are external dependencies under their own licenses.
-SSNS/SPLR source code is not bundled here. Software packaging and interface
+The balanced benchmark archive retains the SSNS/SPLR adapter source and its upstream license. Software packaging and interface
 development were assisted by OpenAI ChatGPT/Codex.
 
 Chinese instructions: [README_zh.md](README_zh.md).
