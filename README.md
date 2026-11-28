@@ -1,35 +1,30 @@
 # scRefAudit
 
-**Single-cell reference-composition audit**
+**Find which single-cell labels to review when reference proportions are uncertain.**
 
-scRefAudit checks how balanced optimal-transport cell annotations change when
-the proportions of reference cell types change. It provides a Python package
-and an R interface for the same numerical implementation.
+In reference-based single-cell annotation, the same cell can get a different
+label if one cell type is given more weight in the reference, even when the
+cells and their expression profiles stay fixed. scRefAudit checks this
+dependence for balanced optimal-transport (OT) annotation before the labels
+are used in downstream comparisons.
 
-- **Repeated computation:** reuse a baseline curvature factorization across
-  composition scenarios, with optional Taylor initialization and numerical
-  correction.
-- **Targeted checks:** use composition derivatives to propose a change likely
-  to alter a particular cell's assignment.
-- **Review priorities:** rank cells by a local linearized boundary radius.
+- **Prioritize review.** `review_cells()` ranks cells by the estimated change
+  in reference proportions needed to switch their label.
+- **Check a cell of interest.** `stress_test()` proposes targeted changes in
+  reference proportions and checks whether the selected cell's label switches.
+- **Compare specific reference compositions.** `audit_compositions()` reports
+  which cells switch and how their class scores change across scenarios.
 
-The numerical kernel is copied unchanged from the manuscript code. Its hashes
-are recorded in `validation/kernel_provenance.json`. This software release does
-not change the paper's results or rerun its performance benchmark.
+In eight configurations from two immune-cell datasets, the top 100 cells
+ranked by scRefAudit contained an average of **70.63 composition-sensitive
+cells**, versus **58.25** when ranked by the gap between the two highest label
+scores, under the same independent set of sampled reference compositions. A
+label switch is a reason to review the assignment, not proof it is wrong.
 
-## Exploratory unbalanced OT extension — 23 November 2026
-
-A separate [KL-unbalanced OT addendum](manuscript_data/unbalanced_ot_20261123/README.md)
-provides the derivation, all 96 benchmark configurations, numerical checks, and
-exact code and prepared inputs. The revised method was faster in 57/96 settings,
-with a median paired audit ratio of **1.34×** (**1.26×** including common
-initialization). The median was **2.26×** for local perturbations and **0.98×**
-for larger perturbations; all speedups and slowdowns are retained.
-
-The initial five-control comparison and the subsequent fallback retest used the
-same development inputs. This is an experimental solver extension with a
-first-order predictor, separate from the current balanced R/Python interface.
-See the addendum for timing definitions, scope and reproduction commands.
+Start with a fixed query-by-reference cost matrix and reference cell labels.
+The R and Python interfaces use the same numerical implementation.
+[Quick start in R](#quick-start-in-r) · [Quick start in Python](#quick-start-in-python)
+· [中文说明](README_zh.md)
 
 ## Installation
 
@@ -139,7 +134,14 @@ Sensitivity is a dependence on reference weights. It is not a probability of
 misannotation, an absolute cell count, or experimental validation of cell identity.
 The linearized radius is not an exact certified robustness radius.
 
-## Computational scope
+## Acceleration and computational scope
+
+For repeated checks, scRefAudit reuses a baseline curvature factorization
+and can use Taylor predictions to initialize new solves. In the manuscript's
+single-threaded CPU benchmark, the research implementation was faster than
+Anderson-accelerated Sinkhorn (AA2) in 10 of 11 completed paired configurations,
+with a median speedup of 2.55×. The numerical kernel is unchanged from the
+manuscript code; hashes are in `validation/kernel_provenance.json`.
 
 This is a dense CPU implementation. Kernel/curvature storage is
 `O(n_query*n_reference + n_reference^2)`. Scenario batching limits temporary
@@ -148,6 +150,20 @@ arrays; returning full probabilities additionally stores
 class-Jacobian storage. Use a suitable reference subset for large atlases.
 Small easy workloads can favor ordinary accelerated Sinkhorn. The new R and
 Python wrapper has not been assigned the manuscript's 2.55-fold speedup.
+
+## Exploratory unbalanced OT extension — 23 November 2026
+
+A separate [KL-unbalanced OT addendum](manuscript_data/unbalanced_ot_20261123/README.md)
+provides the derivation, all 96 benchmark configurations, numerical checks, and
+exact code and prepared inputs. The revised method was faster in 57/96 settings,
+with a median paired audit ratio of **1.34×** (**1.26×** including common
+initialization). The median was **2.26×** for local perturbations and **0.98×**
+for larger perturbations; all speedups and slowdowns are retained.
+
+The initial five-control comparison and the subsequent fallback retest used the
+same development inputs. This is an experimental solver extension with a
+first-order predictor, separate from the current balanced R/Python interface.
+See the addendum for timing definitions, scope and reproduction commands.
 
 ## Tests and provenance
 
