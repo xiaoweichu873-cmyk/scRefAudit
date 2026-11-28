@@ -30,16 +30,19 @@ The R and Python interfaces use the same numerical implementation.
 
 ### R / RStudio
 
-[Download the source ZIP](https://github.com/xiaoweichu873-cmyk/scRefAudit/archive/refs/heads/main.zip) and unzip it. In RStudio, replace the example path with the path to your unzipped `scRefAudit-main` folder:
+[Download the source ZIP](https://github.com/xiaoweichu873-cmyk/scRefAudit/archive/refs/heads/main.zip) and unzip it. Install the dependency in the R console:
 
 ```r
 install.packages("reticulate")
-install.packages("/your/path/scRefAudit-main", repos = NULL, type = "source")
-library(scRefAudit)
 ```
 
-Alternatively, run `R CMD INSTALL .` in a terminal opened in the unzipped
-folder. The R interface requires R >= 4.1 and reticulate >= 1.41.
+In a terminal opened in the unzipped `scRefAudit-main` folder, run:
+
+```sh
+R CMD INSTALL .
+```
+
+Then return to R and run the quick start below. The R interface requires R >= 4.1 and reticulate >= 1.41.
 Reticulate declares NumPy and SciPy dependencies and can provision Python at
 the first computation. This step needs internet access if dependencies are
 not already available. To use an existing compatible environment, set
