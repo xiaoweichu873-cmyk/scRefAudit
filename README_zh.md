@@ -80,10 +80,12 @@ R 行名可以用真实细胞条形码；返回结果的 `cell_id` 用于对应�
 或在网页中另行添加 `.github/workflows/check.yml`。上传后检查 Actions 的 R 与 Python 测试结果。
 
 代码公开前确认两位作者的软件署名、MIT 许可和引用信息。
-这里交付的是待发布源代码；尚未替你创建或公开任何 GitHub 仓库。
+本仓库提供已发布的 scRefAudit 源码及论文数据下载入口。
 
 ## 这份代码包与论文附件的关系
 
+[论文复现材料固定版本](https://github.com/xiaoweichu873-cmyk/scRefAudit/tree/859f41bc4c9752bb02580d557bf2afe2d79b8e58)包含三份工作簿、图 7 的 78 份组织分析输入、绘图与核验代码，以及探索性非平衡 OT 补充说明。[点击下载整个档案](https://github.com/xiaoweichu873-cmyk/scRefAudit/archive/859f41bc4c9752bb02580d557bf2afe2d79b8e58.zip)。
+
 本包有可运行示例、数值核心和三个功能的接口。它不包含论文全部大型数据、计时对照和第三方求解器构建材料。
-那些复现材料仍使用此前整理的完整档案，投稿时另外提供审稿访问地址。
+图 2B、表 1 和图 5 的复核材料见[固定平衡 OT 下载](https://github.com/xiaoweichu873-cmyk/scRefAudit/archive/d728fff33f0ac58840f62e2d571764fef42477c3.zip)。
 论文报告的 2.55 倍来自原有基准实验，不能自动作为新 R 接口在任意电脑上的加速保证。

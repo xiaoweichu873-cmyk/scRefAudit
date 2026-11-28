@@ -164,6 +164,8 @@ Linux and macOS when it is run; its results are not preclaimed here.
 
 ## Manuscript and citation
 
+The [fixed supporting-data archive](https://github.com/xiaoweichu873-cmyk/scRefAudit/tree/859f41bc4c9752bb02580d557bf2afe2d79b8e58) includes the three result workbooks, 78 prepared tissue inputs for Figure 7, source records, plotting scripts and the exploratory KL supplement. [Download the full archive](https://github.com/xiaoweichu873-cmyk/scRefAudit/archive/859f41bc4c9752bb02580d557bf2afe2d79b8e58.zip).
+
 Preprint: *Efficient reference composition sensitivity analysis for single-cell
 annotation*, DOI [10.21203/rs.3.rs-11637549/v1](https://doi.org/10.21203/rs.3.rs-11637549/v1).
 The newer submission manuscript contains additional controls and analyses.
