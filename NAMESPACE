@@ -1,8 +1,0 @@
-export(audit_fit)
-export(audit_compositions)
-export(propose_scenarios)
-export(review_cells)
-export(stress_test)
-export(demo_audit_data)
-export(backend_info)
-S3method(print,scRefAudit_fit)
