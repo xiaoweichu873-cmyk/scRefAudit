@@ -3,7 +3,7 @@ Type: Package
 Title: Reference Composition Sensitivity Analysis for Single-Cell Annotation
 Version: 0.1.0
 Authors@R: c(person("Xiaowei", "Chu", email = "xiaoweichu873@gmail.com",
-    role = c("aut", "cre"), comment = c(ORCID = "0009-0009-8693-4034")),
+    role = c("aut", "cre"), comment = c(ORCID = "0009-0007-4333-8334")),
     person("Caixia", "Lyu", role = "ctb"))
 Description: Fits balanced entropic optimal transport on a fixed cost matrix,
     reuses curvature across reference-composition scenarios, generates
