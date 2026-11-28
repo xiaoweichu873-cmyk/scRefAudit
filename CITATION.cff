@@ -8,9 +8,10 @@ license: MIT
 authors:
   - family-names: Chu
     given-names: Xiaowei
-    orcid: "https://orcid.org/0009-0009-8693-4034"
+    orcid: "https://orcid.org/0009-0007-4333-8334"
   - family-names: Lyu
     given-names: Caixia
+    orcid: "https://orcid.org/0009-0009-8693-4034"
 references:
   - type: generic
     title: "Efficient reference composition sensitivity analysis for single-cell annotation"
