@@ -27,11 +27,12 @@ scRefAudit 是一道平衡最优传输（OT）注释质控：在用标签做下�
 
 ## 在 RStudio 安装
 
-先把 `scRefAudit_0.1.0.tar.gz` 下载到电脑，再运行：
+先[下载 GitHub 源码 ZIP](https://github.com/xiaoweichu873-cmyk/scRefAudit/archive/refs/heads/main.zip)并解压。
+把下面的路径换成实际解压出来的 `scRefAudit-main` 文件夹：
 
 ```r
 install.packages("reticulate")
-install.packages(file.choose(), repos = NULL, type = "source")
+install.packages("/你的路径/scRefAudit-main", repos = NULL, type = "source")
 library(scRefAudit)
 
 x <- demo_audit_data()
@@ -43,7 +44,7 @@ result$comparison
 review_cells(fit, top_n = 10L)
 ```
 
-`file.choose()` 中选择上述 tar.gz 文件，不要选择 GitHub 源码 ZIP。
+路径应指向解压后的文件夹，里面应有 `DESCRIPTION` 文件。
 首次真正计算时，reticulate 可能需要联网准备 Python、NumPy 和 SciPy。
 R 要求至少 4.1，reticulate 至少 1.41。Apple Silicon 应使用同架构的 R 和 Python。
 这一版尚未上架 CRAN、Bioconductor 或 PyPI；本机测试情况见 `validation/VALIDATION.md`。
